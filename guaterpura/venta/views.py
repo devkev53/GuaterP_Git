@@ -78,9 +78,11 @@ class ReporteVentasMesPDFView(PDFTemplateView ):
     def get_context_data(self, **kwargs):
         ano = datetime.datetime.today().year
         mes = datetime.datetime.today().month
+
         fecha_in = (str(ano)+"-"+str(mes)+'-'+'01')
         fecha_fin = (str(ano)+"-"+str(mes)+'-'+'31')
         hoy = datetime.date.today()
+        m_nombre = datetime.datetime.strftime(hoy, '%B')
         pedidos = Pedido.objects.filter(fecha__range=(fecha_in, fecha_fin))
         detalles = Detalle.objects.filter(pedido__fecha__range=(fecha_in, fecha_fin))
         v = Venta.objects.filter(fecha_a__range=(fecha_in, fecha_fin))
@@ -115,6 +117,6 @@ class ReporteVentasMesPDFView(PDFTemplateView ):
             detalles=detalles,
             venta=v,
             total_venta=t,
-            hoy=hoy,
+            hoy=m_nombre,
             **kwargs
             )

@@ -39,3 +39,7 @@ if settings.DEBUG:
     from django.conf.urls.static import static
     urlpatterns += static(
         settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+admin.site.site_header = "Guater Pura"
+admin.site.site_title = "Portal de Guater Pura"
+admin.site.index_title = "Bienvenidos al sitio de administración"
