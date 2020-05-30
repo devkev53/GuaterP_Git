@@ -1,0 +1,56 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}
+	LOGIN
+{% endblock title %}
+
+{% block page_login %}
+
+		<!-- CSS FLOATING LABELS FOR SING IN	-->
+		<link rel="stylesheet" href="{% static "base/css/floating-labels.css" %}">
+
+		<style>
+	      .bd-placeholder-img {
+	        font-size: 1.125rem;
+	        text-anchor: middle;
+	        -webkit-user-select: none;
+	        -moz-user-select: none;
+	        -ms-user-select: none;
+	        user-select: none;
+	      }
+
+	      @media (min-width: 768px) {
+	        .bd-placeholder-img-lg {
+	          font-size: 3.5rem;
+	        }
+	      }
+	      .egg:hover{
+	      	background: #909090;
+	      }
+	      .title{
+	      	color: rgb(6,76,127);
+	      }
+	    </style>
+	<form method="POST" class="form-signin">{% csrf_token %}
+		<div class="text-center mb-4">
+		    <img class="" src="{% static "base/img/logo2.png" %}" alt="" width="400">
+		    <h1 class="title h3 mb-3 font-weight-bold">
+		    	INICIAR SESIÓN
+		    </h1>
+		</div>
+
+		<div class="form-label-group">
+		    <input type="text" id="id_username" class="form-control" placeholder="Email address" name="username" autocomplete="off" required autofocus>
+		    <label for="id_username">Usuario</label>
+		</div>
+
+	  <div class="form-label-group">
+	    <input type="password" id="id_password" class="form-control" placeholder="Password" name="password" autocomplete="off" required autocomplete="off">
+	    <label for="id_password">Contraseña</label>
+	  </div>
+
+	  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+	  <p class="mt-5 mb-3 text-muted text-center">&copy; 2020 <img class="egg" src="{% static "base/img/kp_white.png" %}" width="25"></p>
+	</form>
+{% endblock page_login %}

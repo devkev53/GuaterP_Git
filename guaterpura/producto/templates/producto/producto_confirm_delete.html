@@ -1,0 +1,24 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+	<div class="container p-4 d-flex justify-content-center">
+		<div class="col-6">
+			<div class="card" style="max-width: 25rem;">
+				<div class="card-header bg-danger text-white">
+					<h5>Eliminar Producto</h5>
+				</div>
+				<div class="card-body">
+					<form method="post">{% csrf_token %}
+					    <p>Segro que quiere eliminar el siguiente producto: <p><b>"{{ object }}"?</b></p></p>
+					    <small><p class="text-danger">Si elimina el producto no se podra recuperar..!</p></small>
+					    <div class="container d-flex justify-content-center">
+					    	<input class="btn btn-danger mr-4" type="submit" value="Confirm">
+					    	<a href="{% url 'producto:list_producto' %}" class="btn btn-info">Cancelar</a>
+					    </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

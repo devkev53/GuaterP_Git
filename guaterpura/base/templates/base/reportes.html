@@ -1,0 +1,32 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+	<div class="container p-4">
+		<div class="card">
+			<div class="card-body">
+				<div class="d-flex justify-content-arround">
+					<div class="col-2"></div>
+					<div class="col-7">
+						<div class="row">
+							<h4 class="mr-4">Descargar el reportes de venta de hoy:</h4>
+							<a class="btn btn-info" download="RegistroVentas.pdf" href="{% url 'venta:reporte_venta' %}">Imprimir el Reporte</a>
+						</div>
+					</div>
+					<div class="col-3">
+						<small class="text-danger"><p>El reporte contendra las ventas o pedidos hasta el horario de descarga..!</p></small>
+					</div>
+				</div>
+				<hr>
+				<div class="d-flex justify-content-arround">
+					<div class="col-2"></div>
+					<div class="col-8">
+						<div class="row">
+							<h4 class="mr-4">Descargar el reportes de el mes en curso:</h4>
+							<a download="ReporteVentasMes.pdf" class="btn btn-info" href="{% url 'venta:reporte_mes' %}">Imprimir el Reporte</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<style>
+	@page {
+		size: legal landscape; margin: 2cm;
+	}
+	.title{
+		text-transform: uppercase;
+		font-size: 25px;
+		text-align: center;
+	}
+	.o{
+		background-color: #FF5252;
+	}
+	.in{
+		background-color: #9EFD88;
+	}
+	table{
+		border: 1px solid #C4C4C4;
+		width: 50%;
+	}
+	th{
+		padding: 2px;
+		align-content: center;
+		font-weight: bold;
+		color: white;
+		background-color: #6A6A6A;
+		font-size: 14px;
+	}
+	td{
+		padding: 2px;
+		font-size: 14px;
+	}
+	canvas{
+		white-space: 50px;
+		width: 25px;
+		height: 15px;
+		background: #9EFD88;
+		text-align: right;
+	}
+</style>
+<body>
+<h3 class="title">Reporte de Ventas de {{hoy}}</h3>
+<hr>
+<table>
+	<thead>
+		<tr>
+			<th>Cliente</th>
+			<th>Repartidor</th>
+			<th>Detalle</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for p in pedidos %}
+			<tr>
+				<td>{{p.cliente.nombre}}</td>
+				<td>{{p.repartidor}}</td>
+				<td style="width:450">
+					{% for d in detalles %}
+						{% if d.pedido.pk == p.pk %}
+							<p>{{d}}</p>
+						{% endif %}
+					{% endfor %}
+				</td>
+				<td style="text-align:right">{{p.total}}</td>
+			</tr>
+		{% endfor %}
+		<tr>
+			<td colspan="4" style="text-align:right">{{total_venta}}</td>
+		</tr>
+	</tbody>
+</table>
+<hr>
+</body>
+</html>

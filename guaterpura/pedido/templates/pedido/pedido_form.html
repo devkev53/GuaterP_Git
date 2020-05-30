@@ -1,0 +1,231 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<style>
+	.input-td{
+		width: 75px;
+	}
+	table{
+		border-right: 1px solid #CACACA;
+	}
+	.detalle{
+		border-top: 1px solid #CACACA;
+	}
+	.productos{
+		background: #E3EAEA;
+	}
+	.total{
+		border-bottom: 1px solid #CACACA;
+	}
+</style>
+	<div class="container p-4">
+		<div class="card">
+			<div class="card-header">
+				<h5 class="text-uppercase">registrar pedido</h5>
+			</div>
+
+			<form action="" id="formPedido" method="POST">{% csrf_token %}
+
+			<div class="card-body">
+				<div class="container">
+					<div class="row">
+						<div class="form-group row col-6 mx-2">
+						    <label for="id_cliente">Cliente</label>
+						  	<div class="col-10">{{form_ped.cliente}}</div>
+						</div>
+						<div class="form-group row col-6">
+							<label for="id_cliente">Repartidor</label>
+							<div class="col-8">{{form_ped.repartidor}}</div>
+						</div>
+					</div>
+					<div class="container productos d-flex">
+					  	<div class="col-6 tabla-productos mr-4">
+					  		<table class="table">
+						  		<thead>
+						  			<tr>
+						  				<th>Nombre</th>
+						  				<th>Precio Venta</th>
+						  				<th>Acciones</th>
+						  			</tr>
+						  		</thead>
+						  		<tbody>
+						  			{% for p in productos  %}
+						  				<tr>
+						  					<td>{{p.nombre}}</td>
+						  					<td>{{p.precio}}</td>
+						  					<td>
+						  						<button onclick="selectProducto('{{p.nombre}}', '{{p.precio}}', {{p.id}})" class="btn btn-info btn-sm" type="button">Agregar</button>
+						  					</td>
+						  				</tr>
+						  			{% endfor %}
+						  		</tbody>
+						  	</table>
+					  	</div>
+					  	<div class="col detalle">
+					  		<div class="mt-2 form-group row col-12">
+								<label class="col-4" for="id_cliente"><b>Producto</b></label>
+								<div class="col-8 mb-2">
+									<input type="text" readonly class="form-control" id="producto_det">
+								</div>
+								<div class="col-8">
+									<input type="number" readonly class="form-control" name="prdoucto" id="prod_id">
+								</div>
+								<div class="row">
+									<div class="col-4 container">
+										<label for="precio_prod">Precio</label>
+										<input class="form-control" name="precio" id="precio_prod" type="number">
+									</div>
+									<div class="col-4 container">
+										<label for="precio_prod">Cantidad</label>
+										<input class="form-control" name="cantidad" id="cantidad_prod" type="number">
+									</div>
+									<div class="col-4 container">
+										<label for="precio_prod">Total</label>
+										<input class="form-control" name="total" id="total_prod" type="number" readonly>
+									</div>
+									<input class="form-control" name="descento" id="descento_prod" type="number">
+								</div>
+								<!--div class="form-group row col-12">
+								    <label class="col-4 mr-2" for="id_cliente">Precio</label>
+								    <div class="col-7">
+								    	<input class="form-control mb-2" name="precio" id="precio_prod" type="number">
+								    </div>
+								    <label class="col-4 mr-2" for="id_cliente">Cantidad</label>
+								    <div class="col-7">
+								    	<input class="form-control" name="cantidad" id="cantidad_prod" type="number">
+								    </div>
+							  	</div>
+							  	<div class="form-group row col-12">
+							  		<label class="col-4 mr-2" for="id_cliente">Total</label>
+								    <div class="col-7">
+								    	<input class="form-control" name="total" id="total_prod" type="number" readonly>
+								    </div>
+							  	</div-->
+							  	<div class="container mt-2 d-flex justify-content-center">
+									<button class="btn btn-success mr-4" type="submit">Guardar</button>
+									<a href="{% url 'pedido:list_pedidos' %}" class="btn btn-danger">Cancelar</a>
+								</div>
+							</div>
+					  	</div>
+					</div>
+
+					<hr>
+					<div class="container total">
+						<div class="row">
+							<div class="form-row col-7">
+								<h5>Detalle del Pedido</h5>
+							</div>
+							<div class="form-row col">
+								<div class="foform_pedrm-group col-md-4">
+									{{form_ped.subtotal}}
+								</div>
+								<!--div class="form-group col-md-4">
+								    {{form_ped.descuento}}
+								</div-->
+								<div class="form-group col-md-4">
+								    {{form_ped.total}}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="container">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Producto</th>
+									<th>Cantidad</th>
+									<th>Precio Unidad</th>
+									<th>Subtotal</th>
+									<th>Total</th>
+									<th>Eliminar</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for d in detalle %}
+								<tr>
+									<td>{{d.producto.nombre}}</td>
+									<td>{{d.cantidad}}</td>
+									<td>{{d.producto.precio}}</td>
+									<td>{{d.subtotal}}</td>
+									<td>{{d.total}}</td>
+									<td>
+										<a class="btn btn-warning btn-sm" href="{% url 'pedido:detalle_delete' pedido.pk d.id %}">Eliminar</a>
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!--div class="container">
+					{{form.as_p}}
+					</form>
+				</div>
+				{% for form_tarea in formset %}
+				    {{ form_tarea }} <br />
+				{% endfor %}
+				{{ formset.management_form }}
+				<input class="btn btn-success" type="submit" value="Guardar"-->
+			</div>
+
+			</form>
+
+		</div>
+	</div>
+{% endblock content %}
+
+{% block js_content %}
+	<script>
+		$(document).ready(function() {
+		    //$('#id_cliente').select2({
+			//    theme: 'bootstrap4',
+			//});
+			//$('#id_repartidor').select2({
+			//    theme: 'bootstrap4',
+			//});
+
+			$('#cantidad_prod, #precio_prod').change(function(event) {
+				/* Act on the event */
+				calcularDetalle()
+			});
+
+			$('#formPedido').submit(function(event) {
+				/* Act on the event */
+				if($('#total_prod').val()==0 || $('#prod_id').val()==0){
+					event.preventDefault();
+					alert("No ha agregado un producto, o no ha ingresado cantidad")
+				}
+			});
+
+			$('#select2-id_cliente-container').focus();
+			$('#prod_id').val(0)
+			$('#prod_id').hide()
+			$('#descento_prod').hide()
+			$('#precio_prod').val(0);
+			$('#cantidad_prod').val(0);
+		});
+		function selectProducto(nombre, precio, id){
+			p = parseFloat(precio)
+			$('#cantidad_prod').val(0);
+			$('#precio_prod').val(0);
+			$('#producto_det').val(nombre);
+			$('#precio_prod').val(+p);
+			$('#prod_id').val(+id);
+			$('#descento_prod').val(0);
+			$('#cantidad_prod').focus();
+			$('#cantidad_prod').select();
+		};
+
+		function calcularDetalle(){
+			var cant, total;
+			cant = $('#cantidad_prod').val();
+			cant = cant==="" ? 0: +cant;
+			cant = cant<0 ? 0: cant;
+
+			total = cant* $('#precio_prod').val();
+
+			$('#cantidad_prod').val(cant);
+			$('#total_prod').val(total);
+		};
+	</script>
+{% endblock js_content %}

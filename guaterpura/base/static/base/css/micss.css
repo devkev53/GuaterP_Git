@@ -1,0 +1,41 @@
+html, body{
+      min-height: 100%;
+      min-height: 100vh;
+      overflow: auto; // <- this is needed when you resize the screen
+}
+.nav-link{
+	color: #000 !important;
+}
+.nav-link:hover{
+	color: #00DEFF !important;
+}
+.active{
+	color: #00535F !important;
+	font-weight: bold;
+}
+.off{
+	color: #EF0000 !important;
+}
+.off:hover{
+	color: #EF0000 !important;
+	font-weight: bold;
+}
+.img{
+	box-shadow: 5px 5px 10px;
+	border-radius: 50px;
+	width: 250px;
+	height: 250px;
+	align-content: center;
+	align-items: center;
+}
+.img_list{
+	border-radius: 5px;
+	width: 50px;
+	height: 50px;
+	align-content: center;
+	align-items: center;
+}
+
+footer{
+	background: #0085EC;
+}

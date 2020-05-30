@@ -1,0 +1,61 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+	<div class="container p-4">
+		<div class="container d-flex">
+			<a class="btn btn-success text-uppercase font-weight-bold ml-auto" href="{% url 'cliente:new_cliente' %}">
+				<span class="fas fa-plus"></span>
+				Registrar Cliente
+			</a>
+		</div>
+		<div class="card mt-4">
+			<div class="card-header">
+				<h5 class="text-uppercase font-weight-bold">
+					Clientes
+				</h5>
+			</div>
+			<div class="card-body">
+				<div class="table mt-4">
+					<table class="table table-striped">
+						<thead class="thead-light">
+							<tr>
+								<th scope="col">Nombre</th>
+								<th scope="col">Direccion</th>
+								<th scope="col">Nit</th>
+								<th scope="col">Tipo Cliente</th>
+								<th scope="col">Telefono</th>
+								<th class="text-center" scope="col">Accion</th>
+							</tr>
+						</thead>
+							<tbody>
+								{% for c in object_list  %}
+										<tr>
+											<td>{{c.nombre}}</td>
+											<td>{{c.direccion}}</td>
+											<td>{{c.nit}}</td>
+											<td>
+												{% if c.tipo_cliente == '3' %}
+													Especial
+												{% elif c.tipo_cliente == '2' %}
+													Distribuidor
+												{% else %}
+													Normal
+												{% endif %}
+											</td>
+											<td>{{c.telefono}}</td>
+											<td class="text-center" width="150">
+												<a href="{% url 'cliente:update_cliente' c.pk %}" class="btn btn-warning btn-sm">Editar</a>
+												{% if request.user.groups.all.0.name == 'administrador' %}
+												<a href="{% url 'cliente:delete_cliente' c.pk %}" class="btn btn-danger btn-sm text-white">Eliminar</a>
+												{% endif %}
+											</td>
+										</tr>
+								{% endfor %}
+							</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

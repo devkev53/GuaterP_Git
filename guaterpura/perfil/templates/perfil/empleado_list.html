@@ -1,0 +1,72 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+	.card{
+		margin-bottom: 100px !important;
+	}
+</style>
+	<div class="container p-4">
+		<div class="container d-flex">
+			<a class="btn btn-success text-uppercase font-weight-bold ml-auto" href="{% url 'empleado:add_empleado' %}">
+				<span class="fas fa-plus"></span>
+				Registrar Empleado
+			</a>
+		</div>
+		<div class="card mt-4">
+			<div class="card-header">
+				<h5 class="text-uppercase font-weight-bold">
+					Empleados
+				</h5>
+			</div>
+			<div class="card-body">
+				<ul class="nav nav-tabs">
+				  	<li class="nav-item">
+				    	<a class="nav-link {% if request.path == '/empleados/' %} active {% endif %}" href="{% url 'empleado:empelado_list' %}">Empleados</a>
+				  	</li>
+				  	<li class="nav-item">
+				    	<a class="nav-link" href="{% url 'empleado:puesto_list' %}">Puestos</a>
+				  	</li>
+				</ul>
+				<div class="table mt-4">
+					<table class="table table-striped">
+						<thead class="thead-light">
+							<tr>
+								<th scope="col">Fotografia</th>
+								<th scope="col">No. DPI</th>
+								<th scope="col">Nombre</th>
+								<th scope="col">Direccion</th>
+								<th scope="col">Puesto</th>
+								<th scope="col">Salario</th>
+								<th class="text-center	" scope="col">Accion</th>
+							</tr>
+						</thead>
+							<tbody>
+								{% for e in object_list  %}
+										<tr>
+											<td width="100">
+												{% if e.foto %}
+													<img class="img_list" src="{{e.foto.url}}" alt="">
+												{% else %}
+													<img src="{% static "base/img/nofound.eng" %}" width="100" alt="">
+												{% endif %}
+											</td>
+											<td>{{e.dpi}}</td>
+											<td>{{e.nombres}} {{e.apellidos}}</td>
+											<td>{{e.direccion}}</td>
+											<td>{{e.puesto}}</td>
+											<td>Q. {{e.puesto.salario}}</td>
+											<td width="150">
+												<a href="{% url 'empleado:update_empleado' e.pk %}" class="btn btn-warning btn-sm">Editar</a>
+												<a href="{% url 'empleado:delete_empleado' e.pk %}" class="btn btn-danger btn-sm text-white">Eliminar</a>
+											</td>
+										</tr>
+								{% endfor %}
+							</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

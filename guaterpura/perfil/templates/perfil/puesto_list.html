@@ -1,0 +1,53 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+	<div class="container p-4">
+		<div class="container d-flex">
+			<a class="btn btn-success text-uppercase font-weight-bold ml-auto" href="{% url 'empleado:add_puesto' %}">
+				<span class="fas fa-plus"></span>
+				Registrar Puesto
+			</a>
+		</div>
+		<div class="card mt-4">
+			<div class="card-header">
+				<h5 class="text-uppercase font-weight-bold">
+					Puestos
+				</h5>
+			</div>
+			<div class="card-body">
+				<ul class="nav nav-tabs">
+				  	<li class="nav-item">
+				    	<a class="nav-link {% if request.path == '/empleados/' %} active {% endif %}" href="{% url 'empleado:empelado_list' %}">Empleados</a>
+				  	</li>
+				  	<li class="nav-item">
+				    	<a class="nav-link {% if request.path == '/puestos/' %} active {% endif %}" href="{% url 'empleado:puesto_list' %}">Puestos</a>
+				  	</li>
+				</ul>
+				<div class="table mt-4">
+					<table class="table table-striped">
+						<thead class="thead-light">
+							<tr>
+								<th scope="col">Nombre del Puesto</th>
+								<th scope="col">Monto a devengar</th>
+								<th class="text-center" scope="col">Accion</th>
+							</tr>
+						</thead>
+							<tbody>
+								{% for puesto in object_list  %}
+										<tr>
+											<td>{{puesto.nombre}}</td>
+											<td>Q. {{puesto.salario}}</td>
+											<td width="150">
+												<a href="{% url 'empleado:update_puesto' puesto.pk %}" class="btn btn-warning btn-sm">Editar</a>
+												<a href="{% url 'empleado:delete_puesto' puesto.pk %}" class="btn btn-danger btn-sm text-white">Eliminar</a>
+											</td>
+										</tr>
+								{% endfor %}
+							</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

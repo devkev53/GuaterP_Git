@@ -1,0 +1,128 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<style>
+</style>
+	<div class="container p-4">
+		{% if venta_q %}
+
+		{% if venta.estado == 1 %}
+
+				<div class="container d-flex justify-content-end">
+					<h4 class="mr-auto">Medida Caudalimentro:<span class="text-primary ml-4"><b>{{venta.aumentar_caudalimetro}}</b></span></h4>
+					<h4 class="mr-auto">Monto Vendido:<span class="text-primary ml-4"><b>{{venta.monto_vendido}}</b></span></h4>
+					<a class="btn btn-danger text-uppercase font-weight-bold mr-4" href="{% url 'venta:finalizar_venta' venta.pk %}">
+						<span class="fas fa-plus"></span>
+						Cerrar Venta de Hoy
+					</a>
+					<a class="btn btn-success text-uppercase font-weight-bold" href="{% url 'pedido:new_pedido' %}">
+						<span class="fas fa-plus"></span>
+						Nuevo Pedido
+					</a>
+				</div>
+				<div class="card mt-4">
+					<div class="card-header">
+						<h5 class="text-uppercase font-weight-bold">
+							PEDIDOS
+						</h5>
+					</div>
+					<div class="card-body">
+						<ul class="nav nav-tabs">
+						  	<li class="nav-item">
+						    	<a class="nav-link {% if request.path == '/pedidos/' %} active {% endif %}" href="{% url 'pedido:list_pedidos' %}">Pendientes</a>
+						  	</li>
+						  	<li class="nav-item">
+						    	<a class="nav-link {% if request.path == '/pedidos/finalizados/' %} active {% endif %}" href="{% url 'pedido:list_pedidos_fin' %}">Finalizados</a>
+						  	</li>
+						</ul>
+						<div class="table mt-4">
+							<table class="table table-striped">
+								<thead class="thead-dark">
+									<tr>
+										<th scope="col">Cliente</th>
+										<th scope="col">Fecha</th>
+										<th scope="col">Hora Pedido</th>
+										<th scope="col">Repartidor</th>
+										<th scope="col">Monto</th>
+										<th scope="col">Pendiente Entrega</th>
+										<th class="text-center" colspan="2" scope="col">Acciones</th>
+									</tr>
+								</thead>
+									<tbody>
+										{% for p in object_list  %}
+										{% if p.estado == False %}
+										{% if p.fecha == hoy %}
+											<tr>
+												<td>{{p.cliente.nombre}}</td>
+												<td>{{p.fecha}}</td>
+												<td>{{p.hora_s}}</td>
+												<td>{{p.repartidor}}</td>
+												<td>{{p.total}}</td>
+												<td>Pendiente</td>
+												<td>
+													<a href="{% url 'pedido:pedido_edit' p.pk %}" class="circle btn btn-warning">Editar</a>
+												</td>
+												<td>
+													<a href="{% url 'pedido:finalizar_pedido' p.pk %}" class="circle btn btn-success text-white">Finalizar</a>
+												</td>
+											</tr>
+										{% endif %}
+										{% endif %}
+										{% endfor %}
+									</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+		{% else %}
+
+		<div class="alert alert-danger" role="alert">
+				<div class="container">
+					La venta de hoy {{hoy}} ya se finalizo!
+				</div>
+		</div>
+		<div class="">
+			<h4 class="text-uppercase">Resultados</h4>
+			<table class="table">
+				<thead class="table-dark">
+					<tr>
+						<th>Monto Apertura</th>
+						<th>Monto Cierre</th>
+						<th>Caudalimetro Apertura</th>
+						<th>Caudalimetro Cierre</th>
+						<th>Garrafones Vendidos</th>
+						<th>Bosas Vendidas</th>
+						<th>Monto Vendido</th>
+					</tr>
+				</thead>
+				<tbody>
+					<td>Q. {{venta.saldo_a}}</td>
+					<td>Q. {{venta.saldo_c}}</td>
+					<td>{{venta.caudal_a}}</td>
+					<td>{{venta.caudal_c}}</td>
+					<td>{{venta.garrafones_vendidos}}</td>
+					<td>{{venta.bolsas_vendidas}}</td>
+					<td>Q. {{venta.monto_vendido}}</td>
+				</tbody>
+			</table>
+		</div>
+		<div class="container d-flex justify-content-center">
+			<a class="btn btn-info" download="RegistroVentas.pdf" href="{% url 'venta:reporte_venta' %}">Imprimir el Reporte</a>
+		</div>
+
+		{% endif %}
+
+		{% else %}
+		<div class="alert alert-danger" role="alert">
+			<div class="container">
+				Debe iniciar una venta para registrar pedidos!
+			</div>
+		</div>
+		<div class="container d-flex justify-content-center">
+			<a href="{% url 'venta:new_venta' %}" class="text-white btn btn-success text-uppercase">Aperturar Venta</a>
+		</div>
+
+		{% endif %}
+	</div>
+{% endblock content %}

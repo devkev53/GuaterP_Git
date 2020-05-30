@@ -1,0 +1,66 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<style>
+</style>
+	<div class="container p-4">
+		<div class="container d-flex justify-content-end">
+					<h4 class="mr-auto">Medida Caudalimentro:<span class="text-primary ml-4"><b>	{{venta.caudal_c}}</b></span></h4>
+					<a class="btn btn-danger text-uppercase font-weight-bold mr-4" href="{% url 'venta:finalizar_venta' venta.pk %}">
+						<span class="fas fa-plus"></span>
+						Cerrar Venta de Hoy
+					</a>
+					<a class="btn btn-success text-uppercase font-weight-bold" href="{% url 'pedido:new_pedido' %}">
+						<span class="fas fa-plus"></span>
+						Nuevo Pedido
+					</a>
+				</div>
+		<div class="card mt-4">
+			<div class="card-header">
+				<h5 class="text-uppercase font-weight-bold">
+					PEDIDOS
+				</h5>
+			</div>
+			<div class="card-body">
+				<ul class="nav nav-tabs">
+				  	<li class="nav-item">
+				    	<a class="nav-link {% if request.path == '/pedidos/' %} active {% endif %}" href="{% url 'pedido:list_pedidos' %}">Pendientes</a>
+				  	</li>
+				  	<li class="nav-item">
+				    	<a class="nav-link {% if request.path == '/pedidos/finalizados/' %} active {% endif %}" href="{% url 'pedido:list_pedidos_fin' %}">Finalizados</a>
+				  	</li>
+				</ul>
+				<div class="table mt-4">
+					<table class="table table-striped">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">Cliente</th>
+								<th scope="col">Hora Pedido</th>
+								<th scope="col">Hora Fin</th>
+								<th scope="col">Repartidor</th>
+								<th scope="col">Monto</th>
+								<th scope="col">Pendiente Entrega</th>
+							</tr>
+						</thead>
+							<tbody>
+								{% for p in object_list  %}
+								{% if p.estado == True %}
+								{% if p.fecha == hoy %}
+									<tr>
+										<td>{{p.cliente.nombre}}</td>
+										<td>{{p.hora_s}}</td>
+										<td>{{p.hora_e}}</td>
+										<td>{{p.repartidor}}</td>
+										<td>{{p.total}}</td>
+										<td>Entregado</td>
+									</tr>
+								{% endif %}
+								{% endif %}
+								{% endfor %}
+							</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}
